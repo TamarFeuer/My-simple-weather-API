@@ -8,10 +8,19 @@ file or a SQLite database - swappable with one line.
 GET /api/weather/temperature?month=January  ->  { "temperature": 4 }
 ```
 
-## Project structure
+## Repository layout
 
-Four folders, organized by responsibility, with the request flowing
-Controller → Service → Repository (Models is the shared data type):
+This repo holds two apps side by side:
+
+- `weather-backend/` - the ASP.NET Core API (this README describes it; all
+  backend paths below are relative to this folder)
+- `weather-frontend/` - the Angular app (work in progress)
+
+## Backend structure
+
+Inside `weather-backend/`, four folders organized by responsibility, with the
+request flowing Controller → Service → Repository (Models is the shared data
+type):
 
 ![WeatherAPI project structure - Controller/ (API, HTTP endpoint):
 WeatherEndpoint.cs; Service/ (business logic): WeatherService.cs,
@@ -77,7 +86,10 @@ never know which storage is behind the interface.
 
 ## Running it
 
+Backend, from `weather-backend/`:
+
 ```bash
+cd weather-backend
 dotnet run
 ```
 
@@ -86,7 +98,14 @@ Then open:
 - `http://localhost:5151/swagger` - interactive test page
 - `http://localhost:5151/api/weather/temperature?month=July` - the raw JSON
 
-Press `Ctrl+C` to stop.
+Frontend, from `weather-frontend/`:
+
+```bash
+cd weather-frontend
+npm start            # Angular dev server on http://localhost:4200
+```
+
+Press `Ctrl+C` to stop either one.
 
 ## Inspecting the database
 
@@ -94,6 +113,7 @@ When the SQLite driver is active, you can look inside `weather.db` directly with
 the `sqlite3` CLI (install it with `sudo apt install sqlite3`):
 
 ```bash
+cd weather-backend
 echo "=== SELECT * FROM Temperatures ==="; sqlite3 -header -column weather.db "SELECT * FROM Temperatures;"
 ```
 
