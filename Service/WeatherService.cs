@@ -1,8 +1,8 @@
 // ============================================================================
 // SERVICE - business logic
 // ============================================================================
-// WeatherService does the work: find the current season, get its range, and
-// pick a random value inside it. It implements IWeatherService and uses
+// WeatherService does the work: look up the chosen month's range and pick a
+// random value inside it. It implements IWeatherService and uses
 // IWeatherRepository to get data.
 //
 // Pure logic - no ASP.NET, no database. The repository arrives via the
@@ -25,24 +25,15 @@ namespace WeatherAPI.Service
 			_random = new Random();
 		}
 
-		public int GetTemperature()
+		// Returns a random temperature in the chosen month's range, or null if
+		// the month is unknown.
+		public int? GetTemperature(string month)
 		{
-			string season = GetCurrentSeason();
-			// Ask the contract for the range; we don't know or care that the
-			// data is currently hardcoded behind WeatherRepository.
-			Temperature temp = _repository.GetBySeason(season);
+			Temperature? row = _repository.GetByMonth(month);
+			if (row is null)
+				return null;
 			// Max + 1 because Random.Next's upper bound is EXCLUSIVE.
-			return _random.Next(temp.MinTemp, temp.MaxTemp + 1);
-		}
-
-		// Business rule: map the current calendar month to a season.
-		private string GetCurrentSeason()
-		{
-			int month = DateTime.Now.Month;
-			if (month >= 6 && month <= 8) return "Summer";
-			if (month >= 9 && month <= 11) return "Autumn";
-			if (month >= 3 && month <= 5) return "Spring";
-			return "Winter";
+			return _random.Next(row.MinTemp, row.MaxTemp + 1);
 		}
 	}
 }

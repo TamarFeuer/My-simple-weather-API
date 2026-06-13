@@ -10,6 +10,6 @@ namespace WeatherAPI.Repository
 {
 	public interface IWeatherRepository
 	{
-		Temperature GetBySeason(string season);
+		Temperature? GetByMonth(string month);
 	}
 }

@@ -12,10 +12,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.1" />
   </ItemGroup>
 
-  <!-- The "database": copy seasons.json next to the built app so the JSON
+  <!-- The "database": copy months.json next to the built app so the JSON
        data-source driver can read it at runtime. -->
   <ItemGroup>
-    <None Update="Repository/seasons.json">
+    <None Update="Repository/months.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

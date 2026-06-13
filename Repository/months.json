@@ -1,0 +1,14 @@
+[
+  { "month": "January",   "minTemp": 1,  "maxTemp": 6  },
+  { "month": "February",  "minTemp": 1,  "maxTemp": 7  },
+  { "month": "March",     "minTemp": 3,  "maxTemp": 10 },
+  { "month": "April",     "minTemp": 5,  "maxTemp": 14 },
+  { "month": "May",       "minTemp": 9,  "maxTemp": 18 },
+  { "month": "June",      "minTemp": 12, "maxTemp": 21 },
+  { "month": "July",      "minTemp": 14, "maxTemp": 23 },
+  { "month": "August",    "minTemp": 14, "maxTemp": 23 },
+  { "month": "September", "minTemp": 11, "maxTemp": 19 },
+  { "month": "October",   "minTemp": 8,  "maxTemp": 15 },
+  { "month": "November",  "minTemp": 4,  "maxTemp": 10 },
+  { "month": "December",  "minTemp": 2,  "maxTemp": 7  }
+]

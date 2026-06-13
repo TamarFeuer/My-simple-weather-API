@@ -36,11 +36,11 @@ builder.Services.AddDbContext<WeatherDbContext>(options =>
     options.UseSqlite("Data Source=weather.db"));
 
 // --- THE ONE-LINE DRIVER SWAP ---
-// WeatherRepository depends only on the ISeasonDataSource interface. We choose
+// WeatherRepository depends only on the IMonthDataSource interface. We choose
 // which driver fills it here. Comment one line, uncomment the other - nothing
 // else in the app changes.
-// builder.Services.AddScoped<ISeasonDataSource, JsonSeasonDataSource>();  // file
-builder.Services.AddScoped<ISeasonDataSource, SqlSeasonDataSource>();        // SQLite
+// builder.Services.AddScoped<IMonthDataSource, JsonMonthDataSource>();  // file
+builder.Services.AddScoped<IMonthDataSource, SqlMonthDataSource>();        // SQLite
 builder.Services.AddScoped<IWeatherRepository, WeatherRepository>();
 builder.Services.AddScoped<IWeatherService, WeatherService>();
 
