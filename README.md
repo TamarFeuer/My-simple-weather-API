@@ -18,6 +18,16 @@ This repo holds two apps side by side:
   backend paths below are relative to this folder)
 - `weather-frontend/` - the Angular app: a month dropdown that shows the weather live
 
+## Frontend
+
+`weather-frontend/` is an Angular app: a month dropdown that calls the API and
+shows the result live (no page refresh). It's split into two components -
+`MonthPicker` (the dropdown; emits the chosen month) and `TemperatureDisplay`
+(shows the range, average and description) - coordinated by the root `App`.
+
+State is managed with **Angular Signals** - a deliberate choice between the two
+options the project considered, Signals and NgRx.
+
 ## Backend structure
 
 Inside `weather-backend/`, four folders organized by responsibility, with the
