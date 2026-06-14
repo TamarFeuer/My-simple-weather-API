@@ -1,6 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+// The shape of the data the API returns for a month (matches the backend's
+// WeatherInfo record). Exported so the component can use the same type.
+export interface WeatherInfo {
+	minTemp: number;
+	maxTemp: number;
+	average: number;
+	description: string;
+}
+
 // A service = a reusable class. This one's only job is to call the backend API.
 //
 // @Injectable({ providedIn: 'root' }) marks the class as a service Angular can
@@ -18,10 +27,10 @@ export class WeatherService {
 	constructor(private http: HttpClient) {}
 
 	// Calls GET /api/weather/temperature?month=<month>.
-	// Returns an Observable: the response arrives later, and whoever cares
-	// "subscribes" to be notified when it does (the observer pattern).
-	getTemperature(month: string) {
-		return this.http.get<{ temperature: number }>(this.apiUrl, {
+	// Returns an Observable of the month's WeatherInfo (range + average +
+	// description). The response arrives later; whoever cares "subscribes" to it.
+	getWeather(month: string) {
+		return this.http.get<WeatherInfo>(this.apiUrl, {
 			params: { month },
 		});
 	}

@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { WeatherService } from './weather.service';
+import { WeatherService, WeatherInfo } from './weather.service';
 
 @Component({
   selector: 'app-root',
@@ -18,10 +18,10 @@ export class App {
     'July', 'August', 'September', 'October', 'November', 'December',
   ];
 
-  // A signal = a reactive value. It holds the latest temperature (null until a
+  // A signal = a reactive value. It holds the chosen month's info (null until a
   // month is picked). When we .set() it, the template re-renders by itself -
   // that's what gives the live update with no F5.
-  protected readonly temperature = signal<number | null>(null);
+  protected readonly info = signal<WeatherInfo | null>(null);
 
   // Inject the WeatherService (dependency injection, same as the backend).
   constructor(private weather: WeatherService) {}
@@ -29,8 +29,8 @@ export class App {
   // Runs when the dropdown changes. Calls the API; when the response arrives,
   // .set() stores it in the signal, which refreshes the screen.
   onMonthSelected(month: string) {
-    this.weather.getTemperature(month).subscribe(response => {
-      this.temperature.set(response.temperature);
+    this.weather.getWeather(month).subscribe(response => {
+      this.info.set(response);
     });
   }
 }

@@ -1,6 +1,6 @@
 <main class="page">
 	<h1>Weather in the Netherlands</h1>
-	<p>Pick a month to see a likely temperature,<br>based on its usual min-max range.</p>
+	<p>Pick a month to see its typical weather.</p>
 
 	<!-- The dropdown. @for is Angular's built-in loop: it reads the component's
 	     `months` array (from app.ts) and creates one <option> per month. `track`
@@ -14,9 +14,11 @@
 		}
 	</select>
 
-	<!-- @if is Angular's built-in conditional: only shows once we have a value.
-	     temperature() reads the signal; when it changes, this updates itself. -->
-	@if (temperature() !== null) {
-		<p class="result">{{ temperature() }}&deg;C</p>
+	<!-- @if is Angular's built-in conditional: only shows once we have data.
+	     "as w" names the signal's value so we can read its fields. When the
+	     signal changes, this updates itself. -->
+	@if (info(); as w) {
+		<p class="result">{{ w.minTemp }}&deg;C - {{ w.maxTemp }}&deg;C</p>
+		<p>Typically {{ w.average }}&deg;C ({{ w.description }})</p>
 	}
 </main>

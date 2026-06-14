@@ -1,11 +1,13 @@
 # WeatherAPI
 
-A small ASP.NET Core Web API built to learn **Clean Architecture**. It returns a
-random temperature for a chosen month, and can read its data from either a JSON
-file or a SQLite database - swappable with one line.
+A small ASP.NET Core Web API built to learn **Clean Architecture**. For a chosen
+month it returns the usual temperature range plus a typical (average) value and
+a short description, and can read its data from either a JSON file or a SQLite
+database - swappable with one line.
 
 ```
-GET /api/weather/temperature?month=January  ->  { "temperature": 4 }
+GET /api/weather/temperature?month=January
+->  { "minTemp": 1, "maxTemp": 6, "average": 3, "description": "Freezing" }
 ```
 
 ## Repository layout
@@ -14,7 +16,7 @@ This repo holds two apps side by side:
 
 - `weather-backend/` - the ASP.NET Core API (this README describes it; all
   backend paths below are relative to this folder)
-- `weather-frontend/` - the Angular app (work in progress)
+- `weather-frontend/` - the Angular app: a month dropdown that shows the weather live
 
 ## Backend structure
 
@@ -24,7 +26,7 @@ type):
 
 ![WeatherAPI project structure - Controller/ (API, HTTP endpoint):
 WeatherEndpoint.cs; Service/ (business logic): WeatherService.cs,
-IWeatherService.cs; Repository/ (data access): WeatherRepository.cs,
+IWeatherService.cs, WeatherInfo.cs; Repository/ (data access): WeatherRepository.cs,
 IWeatherRepository.cs, IMonthDataSource.cs, WeatherDbContext.cs,
 SqlMonthDataSource.cs, JsonMonthDataSource.cs, months.json; Models/
 (data model): Temperature.cs](docs/clean_architecture.png)
@@ -42,14 +44,15 @@ request arrives.
 2. Kestrel receives it; routing matches `WeatherEndpoint`.
 3. DI builds the chain; for `IMonthDataSource` it builds the chosen driver
    (`SqlMonthDataSource` + `WeatherDbContext`).
-4. Controller validates the month and calls `_service.GetTemperature("July")`.
+4. Controller validates the month and calls `_service.GetWeather("July")`.
 5. `WeatherService` calls `_repository.GetByMonth("July")`.
 6. `WeatherRepository` calls `_dataSource.GetAll()` (the chosen driver).
 7. `SqlMonthDataSource` → EF Core → `SELECT * FROM Temperatures` →
    `weather.db` → `Temperature` rows.
-8. `WeatherRepository` picks the July row (14-23); `WeatherService` rolls a
-   random value inside it and returns the `int`.
-9. Controller wraps it as `{ "temperature": N }`; Kestrel sends the JSON back.
+8. `WeatherRepository` picks the July row (14-23); `WeatherService` computes the
+   average and a description, returning a `WeatherInfo`.
+9. Controller returns `{ minTemp, maxTemp, average, description }` as JSON;
+   Kestrel sends it back.
 
 Quick view of the call chain:
 
