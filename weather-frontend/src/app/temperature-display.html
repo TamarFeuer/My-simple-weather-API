@@ -1,0 +1,6 @@
+<!-- @if shows the result only once info() has a value.
+     "as w" names it so we can read its fields. -->
+@if (info(); as w) {
+  <p class="result">{{ w.minTemp }}&deg;C - {{ w.maxTemp }}&deg;C</p>
+  <p>Typically {{ w.average }}&deg;C ({{ w.description }})</p>
+}

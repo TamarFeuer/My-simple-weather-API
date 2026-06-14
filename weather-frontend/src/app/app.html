@@ -6,11 +6,7 @@
 	     via (monthSelected); we forward that to onMonthSelected(). -->
 	<app-month-picker (monthSelected)="onMonthSelected($event)" />
 
-	<!-- @if is Angular's built-in conditional: only shows once we have data.
-	     "as w" names the signal's value so we can read its fields. When the
-	     signal changes, this updates itself. -->
-	@if (info(); as w) {
-		<p class="result">{{ w.minTemp }}&deg;C - {{ w.maxTemp }}&deg;C</p>
-		<p>Typically {{ w.average }}&deg;C ({{ w.description }})</p>
-	}
+	<!-- The result is now its own component. We pass the current info DOWN to
+	     it via the [info] input. -->
+	<app-temperature-display [info]="info()" />
 </main>

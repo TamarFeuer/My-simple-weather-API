@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { WeatherService, WeatherInfo } from './weather.service';
 import { MonthPicker } from './month-picker';
+import { TemperatureDisplay } from './temperature-display';
 
 @Component({
   selector: 'app-root',
-  imports: [MonthPicker],
+  imports: [MonthPicker, TemperatureDisplay],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
