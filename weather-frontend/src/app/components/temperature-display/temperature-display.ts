@@ -1,5 +1,6 @@
-import { Component, input } from '@angular/core';
-import { WeatherInfo } from '../../weather.service';
+import { Component, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { selectInfo } from '../../store/weather.selectors';
 
 @Component({
   selector: 'app-temperature-display',
@@ -7,8 +8,9 @@ import { WeatherInfo } from '../../weather.service';
   styleUrl: './temperature-display.css',
 })
 export class TemperatureDisplay {
-  // An INPUT: the parent passes the weather info DOWN into this component.
-  // input() is Angular's modern way to declare data a component receives;
-  // it's a signal, so the template reads it as info().
-  readonly info = input<WeatherInfo | null>(null);
+  // Read the weather info straight from the store. selectSignal turns a
+  // selector into a signal, so the template still reads it as info() and stays
+  // reactive - no @Input needed anymore.
+  private store = inject(Store);
+  readonly info = this.store.selectSignal(selectInfo);
 }

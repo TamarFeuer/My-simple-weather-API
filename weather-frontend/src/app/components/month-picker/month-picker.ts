@@ -1,4 +1,6 @@
-import { Component, output } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { monthSelected } from '../../store/weather.actions';
 
 @Component({
   selector: 'app-month-picker',
@@ -11,8 +13,12 @@ export class MonthPicker {
     'July', 'August', 'September', 'October', 'November', 'December',
   ];
 
-  // An OUTPUT: this component emits the chosen month UP to its parent. The
-  // parent listens with (monthSelected)="...". output() is Angular's modern
-  // way to declare an event a component sends out.
-  readonly monthSelected = output<string>();
+  // Inject the store so this component can dispatch actions to it directly.
+  private store = inject(Store);
+
+  // When the dropdown changes, dispatch the monthSelected action to the store
+  // (instead of emitting an output up to a parent).
+  onMonthChange(month: string) {
+    this.store.dispatch(monthSelected({ month }));
+  }
 }

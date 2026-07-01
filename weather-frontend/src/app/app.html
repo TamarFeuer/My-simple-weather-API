@@ -2,11 +2,7 @@
 	<h1>Weather in the Netherlands</h1>
 	<p>Pick a month to see its typical weather.</p>
 
-	<!-- The month dropdown is now its own component. It emits the chosen month
-	     via (monthSelected); we forward that to onMonthSelected(). -->
-	<app-month-picker (monthSelected)="onMonthSelected($event)" />
-
-	<!-- The result is now its own component. We pass the current info DOWN to
-	     it via the [info] input. -->
-	<app-temperature-display [info]="currentWeather()" />
+	<!-- Both components talk to the store directly now - no input/output wiring. -->
+	<app-month-picker />
+	<app-temperature-display />
 </main>
